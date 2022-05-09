@@ -56,4 +56,19 @@ body{
   .action-btn-cont>*{
     font-size: 2rem;
     color: #d1d8e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
+
+  .modal-cont{
+    height: 50vh;
+    width: 45vw;
+    position: absolute;
+    background-color: lightblue;
+    top : calc((100vh - 50vh ) / 2);
+    
+
   }
