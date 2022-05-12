@@ -74,7 +74,7 @@ body{
     background-color: lightblue;
     top : calc((100vh - 50vh) / 2);
     left : calc((100vw - 45vw) / 2);
-    display: flex;
+    display: none;
   }
 
   textarea{
@@ -105,3 +105,6 @@ body{
     display:flex;
   }
   
+  .active{
+    border: 4px solid red;
+  }
