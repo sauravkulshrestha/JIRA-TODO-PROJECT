@@ -84,6 +84,7 @@ body{
     border: none;
     outline: none;
     resize: none;
+    font-size: 2rem;
   }
 
   .priority-color-cont{
@@ -117,7 +118,7 @@ body{
   }
   .ticket-color{
     height: 1rem;
-    background-color: black;
+    /* background-color: black; */
   }
   .ticket-id{
     height: 2rem;
