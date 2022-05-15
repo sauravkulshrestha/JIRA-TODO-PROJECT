@@ -40,7 +40,7 @@ modalCont.addEventListener("keydown" , function(e){
 });
 
 
-function createTicket( ticketColor , data){
+function createTicket( ticketColor , data , ticketId){
     let ticketCont  = document.createElement("div");
     ticketCont.setAttribute("class" , "ticket-cont");
     ticketCont.innerHTML = `
@@ -54,5 +54,6 @@ function createTicket( ticketColor , data){
 
 
     
+
 
 
