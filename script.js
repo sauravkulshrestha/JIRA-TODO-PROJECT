@@ -6,6 +6,9 @@ let allPriorityColors = document.querySelectorAll(".priority-color");
 let textAreaCont =  document.querySelector(".modal-Text");
 let mainCont = document.querySelector(".main-cont");
 let isModalPresent  = false;
+var uid = new ShortUniqueId();
+let ticketArr = [];
+
 
 
 addBtn.addEventListener('click' ,  function(){
@@ -35,25 +38,31 @@ modalCont.addEventListener("keydown" , function(e){
 
      modalCont.style.display = "none";
      isModalPresent = false;
-     modalPriorityColor = colorElement.classList[1];
+    //  modalPriorityColor = colorElement.classList[1];
     }
 });
 
 
 function createTicket( ticketColor , data , ticketId){
+    let id = ticketId || uid();
     let ticketCont  = document.createElement("div");
     ticketCont.setAttribute("class" , "ticket-cont");
     ticketCont.innerHTML = `
     <div class="ticket-color ${ticketColor}" ></div>
-    <div class="ticket-id"></div>
+    <div class="ticket-id">${id}</div>
     <div class="task-area ">${data}</div>
     `;
     mainCont.appendChild(ticketCont);
     textAreaCont.value= "";
-}
-
-
     
+    if(!ticketId){
+        ticketArr.push({ticketColor , data , ticketId : id});
+        localStorage.setItem("Tickets" , JSON.stringify(ticketArr));
+    }
+};
+
+
+
 
 
 
