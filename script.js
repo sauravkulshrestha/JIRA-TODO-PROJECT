@@ -93,20 +93,32 @@ for(let i = 0 ; i < toolBoxColor.length ; i++){
         allTicket[i].remove();
 
     }
-
+    
     // only disply the tickets whose color has been selected
     filteredTicket.forEach(function(ticketObj){
         createTicket(ticketObj.ticketColor , ticketObj.data , ticketObj.ticketId);
     })
     
-       
+})
 
-    })
+// funtion to display all tickets when double clicked
 
-
+toolBoxColor[i].addEventListener("dblclick" , function(){
+    // remove all the present tickets
+    let allTicket = document.querySelectorAll(".ticket-cont");
+    for(let i = 0 ; i < allTicket.length ; i++){
+        allTicket[i].remove();
+        
+    }
+    
+    // display all the tickets
+    ticketArr.forEach(function(ticketObj){
+        createTicket(ticketObj.ticketColor , ticketObj.data , ticketObj.ticketId);
+    });
+    
+})
 
 }
-
 
 
 
