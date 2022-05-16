@@ -8,9 +8,10 @@ let mainCont = document.querySelector(".main-cont");
 let isModalPresent  = false;
 var uid = new ShortUniqueId();
 let ticketArr = [];
+let toolBoxColor = document.querySelectorAll(".color");
 
 
-
+// to open modal conatiner
 addBtn.addEventListener('click' ,  function(){
  if(!isModalPresent){
      modalCont.style.display = "flex";
@@ -20,6 +21,8 @@ addBtn.addEventListener('click' ,  function(){
  isModalPresent = !isModalPresent;
 })  
 
+// to remove active class from priority color container 
+// and to add the same active class on the clicked color element.
 allPriorityColors.forEach(function(colorElement){
     colorElement.addEventListener('click' , function(){
         allPriorityColors.forEach(function(priorityColorElement){
@@ -31,6 +34,7 @@ allPriorityColors.forEach(function(colorElement){
 });
 });
 
+// topp generate and display of tickets
 modalCont.addEventListener("keydown" , function(e){
     let key  = e.key;
     if(key == "Shift"){
@@ -42,7 +46,7 @@ modalCont.addEventListener("keydown" , function(e){
     }
 });
 
-
+// function to create new tickets
 function createTicket( ticketColor , data , ticketId){
     let id = ticketId || uid();
     let ticketCont  = document.createElement("div");
@@ -61,6 +65,47 @@ function createTicket( ticketColor , data , ticketId){
     }
 };
 
+
+// get all tickets from local storage
+
+if(localStorage.getItem("Tickets")){
+    ticketArr = JSON.parse(localStorage.getItem("Tickets"));
+    ticketArr.forEach(function(ticketArrObj){
+        createTicket(ticketArrObj.ticketColor , ticketArrObj.data , ticketArrObj.ticketId);
+
+    })
+}
+
+// filter ticket on the basis of ticket color 
+
+for(let i = 0 ; i < toolBoxColor.length ; i++){
+ 
+    toolBoxColor[i].addEventListener("click" , function(){
+    let currToolBoxColor = toolBoxColor[i].classList[0];
+
+    let filteredTicket = ticketArr.filter(function(ticketObj) {
+                 return currToolBoxColor == ticketObj.ticketColor ;
+    });
+
+    // remove all tickets
+    let allTicket = document.querySelectorAll(".ticket-cont");
+    for(let i = 0 ; i < allTicket.length ; i++){
+        allTicket[i].remove();
+
+    }
+
+    // only disply the tickets whose color has been selected
+    filteredTicket.forEach(function(ticketObj){
+        createTicket(ticketObj.ticketColor , ticketObj.data , ticketObj.ticketId);
+    })
+    
+       
+
+    })
+
+
+
+}
 
 
 
