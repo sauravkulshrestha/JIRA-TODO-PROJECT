@@ -9,6 +9,8 @@ let isModalPresent  = false;
 var uid = new ShortUniqueId();
 let ticketArr = [];
 let toolBoxColor = document.querySelectorAll(".color");
+let removeBtn = document.querySelector(".remove-btn");
+
 
 
 // to open modal conatiner
@@ -50,6 +52,7 @@ modalCont.addEventListener("keydown" , function(e){
 function createTicket( ticketColor , data , ticketId){
     let id = ticketId || uid();
     let ticketCont  = document.createElement("div");
+    ticketCont.style.margin = "2rem"
     ticketCont.setAttribute("class" , "ticket-cont");
     ticketCont.innerHTML = `
     <div class="ticket-color ${ticketColor}" ></div>
@@ -58,7 +61,7 @@ function createTicket( ticketColor , data , ticketId){
     `;
     mainCont.appendChild(ticketCont);
     textAreaCont.value= "";
-    
+    handleRemoval(ticketCont , id);
     if(!ticketId){
         ticketArr.push({ticketColor , data , ticketId : id});
         localStorage.setItem("Tickets" , JSON.stringify(ticketArr));
@@ -84,7 +87,9 @@ for(let i = 0 ; i < toolBoxColor.length ; i++){
     let currToolBoxColor = toolBoxColor[i].classList[0];
 
     let filteredTicket = ticketArr.filter(function(ticketObj) {
-                 return currToolBoxColor == ticketObj.ticketColor ;
+        if(currToolBoxColor == ticketObj.ticketColor){
+            return ticketObj;
+        }
     });
 
     // remove all tickets
@@ -119,7 +124,35 @@ toolBoxColor[i].addEventListener("dblclick" , function(){
 })
 
 }
+// remove btn clicking , color change to red
+let removeBtnActive = false;
+removeBtn.addEventListener("click" , function(){
+       if(removeBtnActive){
+           removeBtn.style.color = "white";
+       }
+       else{
+           removeBtn.style.color = "red";
+       }
+       removeBtnActive = !removeBtnActive;
+});
 
+function handleRemoval(ticket , id) {
+    ticket.addEventListener("click" , function(){
+        if(!removeBtnActive) return;
 
+        let idx  = getTicketIdx(id); // get idx of the ticket to be removed
+         ticketArr.splice(idx , 1); // clicked ticket removed from ticket array
 
+         localStorage.setItem("tickets" , JSON.stringify(ticketArr));
+         ticket.remove();
+    });
 
+}
+function getTicketIdx(id) {
+    let ticketIdx = ticketArr.findIndex(function (ticketobj) {
+      return ticketobj.ticketId == id;
+    })
+    return ticketIdx;
+}
+
+  
