@@ -10,6 +10,8 @@ var uid = new ShortUniqueId();
 let ticketArr = [];
 let toolBoxColor = document.querySelectorAll(".color");
 let removeBtn = document.querySelector(".remove-btn");
+let lockClass = "fa-lock";
+let unlockClass = "fa-lock-open";
 
 
 
@@ -53,29 +55,33 @@ function createTicket( ticketColor , data , ticketId){
     let id = ticketId || uid();
     let ticketCont  = document.createElement("div");
     ticketCont.style.margin = "2rem"
-    // ticketCont.setAttribute("contenteditable" , "true");
     ticketCont.setAttribute("class" , "ticket-cont");
     ticketCont.innerHTML = `
     <div class="ticket-color ${ticketColor}" ></div>
     <div class="ticket-id">${id}</div>
     <div class="task-area ">${data}</div>
+
+    <div class = "ticket-lock">
+    <i class="fa-solid fa-lock"></i>
+    </div>
     `;
     mainCont.appendChild(ticketCont);
     textAreaCont.value= "";
     handleRemoval(ticketCont , id);
     handleColor(ticketCont , id);
+    handleLock(ticketCont , id);
 
     if(!ticketId){
         ticketArr.push({ticketColor , data , ticketId : id});
-        localStorage.setItem("Tickets" , JSON.stringify(ticketArr));
+        localStorage.setItem("tickets" , JSON.stringify(ticketArr));
     }
 };
 
 
 // get all tickets from local storage
 
-if(localStorage.getItem("Tickets")){
-    ticketArr = JSON.parse(localStorage.getItem("Tickets"));
+if(localStorage.getItem("tickets")){
+    ticketArr = JSON.parse(localStorage.getItem("tickets"));
     ticketArr.forEach(function(ticketArrObj){
         createTicket(ticketArrObj.ticketColor , ticketArrObj.data , ticketArrObj.ticketId);
 
@@ -185,10 +191,33 @@ function handleColor(ticket , id) {
 
       let ticketIdx = getTicketIdx(id);
       ticketArr[ticketIdx].ticketColor = newticketcolor;
-      localStorage.setItem("tickets" , JSON.stringify(ticketArr));
-
-
+      localStorage.setItem("tickets" , JSON.stringify(ticketArr)); 
   });
-
 }
   
+function handleLock(ticket , id) {
+
+    let ticketLockEle = ticket.querySelector(".ticket-lock");
+    let ticketLock = ticketLockEle.children[0];
+     let ticketTastArea = ticket.querySelector(".task-area");
+
+     ticketLock.addEventListener("click" , function(){
+         let ticketIdx = getTicketIdx(id);
+         if(ticketLock.classList.contains(lockClass)){
+             ticketLock.classList.remove(lockClass);
+             ticketLock.classList.add(unlockClass);
+             ticketTastArea.setAttribute("contenteditable" , "true");
+         }else{
+             ticketLock.classList.remove(unlockClass);
+            ticketLock.classList.add(lockClass);
+            ticketTastArea.setAttribute("contenteditable" , "false");
+         }
+
+        ticketArr[ticketIdx].data = ticketTastArea.innerText;
+
+        localStorage.setItem("tickets" , JSON.stringify(ticketArr));
+
+        // ticketArr[ticketIdx].data = ticketTastArea.innerText;
+        // localStorage.setItem("tickets", JSON.stringify(ticketArr));
+     });
+}
