@@ -53,6 +53,7 @@ function createTicket( ticketColor , data , ticketId){
     let id = ticketId || uid();
     let ticketCont  = document.createElement("div");
     ticketCont.style.margin = "2rem"
+    // ticketCont.setAttribute("contenteditable" , "true");
     ticketCont.setAttribute("class" , "ticket-cont");
     ticketCont.innerHTML = `
     <div class="ticket-color ${ticketColor}" ></div>
@@ -62,6 +63,8 @@ function createTicket( ticketColor , data , ticketId){
     mainCont.appendChild(ticketCont);
     textAreaCont.value= "";
     handleRemoval(ticketCont , id);
+    handleColor(ticketCont , id);
+
     if(!ticketId){
         ticketArr.push({ticketColor , data , ticketId : id});
         localStorage.setItem("Tickets" , JSON.stringify(ticketArr));
@@ -135,7 +138,9 @@ removeBtn.addEventListener("click" , function(){
        }
        removeBtnActive = !removeBtnActive;
 });
+  
 
+// removed deleted tickets from UI and local Storage
 function handleRemoval(ticket , id) {
     ticket.addEventListener("click" , function(){
         if(!removeBtnActive) return;
@@ -148,6 +153,8 @@ function handleRemoval(ticket , id) {
     });
 
 }
+
+// returns the id of the ticket that is removed .
 function getTicketIdx(id) {
     let ticketIdx = ticketArr.findIndex(function (ticketobj) {
       return ticketobj.ticketId == id;
@@ -155,4 +162,33 @@ function getTicketIdx(id) {
     return ticketIdx;
 }
 
+// changes the priority of the ticket
+function handleColor(ticket , id) {
+    
+  let ticketColorStrip = ticket.querySelector(".ticket-color");
+
+  ticketColorStrip.addEventListener("click" , function(){
+      let currTicketColor = ticketColorStrip.classList[1];
+
+      let currTicketColorIdx = color.indexOf(currTicketColor);
+
+      let newTicketColorIdx = currTicketColorIdx + 1;
+
+      newTicketColorIdx = newTicketColorIdx % color.length;
+
+      let newticketcolor = color[newTicketColorIdx];
+
+      ticketColorStrip.classList.remove(currTicketColor);
+      ticketColorStrip.classList.add(newticketcolor);
+
+      // setting it up in local storage
+
+      let ticketIdx = getTicketIdx(id);
+      ticketArr[ticketIdx].ticketColor = newticketcolor;
+      localStorage.setItem("tickets" , JSON.stringify(ticketArr));
+
+
+  });
+
+}
   
