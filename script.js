@@ -66,6 +66,7 @@ function createTicket( ticketColor , data , ticketId){
     </div>
     `;
     mainCont.appendChild(ticketCont);
+
     textAreaCont.value= "";
     handleRemoval(ticketCont , id);
     handleColor(ticketCont , id);
@@ -133,7 +134,7 @@ toolBoxColor[i].addEventListener("dblclick" , function(){
 })
 
 }
-// remove btn clicking , color change to red
+// remove btn clicking , color change to red.
 let removeBtnActive = false;
 removeBtn.addEventListener("click" , function(){
        if(removeBtnActive){
