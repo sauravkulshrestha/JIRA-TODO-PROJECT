@@ -54,7 +54,7 @@ modalCont.addEventListener("keydown" , function(e){
 function createTicket( ticketColor , data , ticketId){
     let id = ticketId || uid();
     let ticketCont  = document.createElement("div");
-    ticketCont.style.margin = "2rem"
+    ticketCont.style.margin = "3rem"
     ticketCont.setAttribute("class" , "ticket-cont");
     ticketCont.innerHTML = `
     <div class="ticket-color ${ticketColor}" ></div>
@@ -138,10 +138,10 @@ toolBoxColor[i].addEventListener("dblclick" , function(){
 let removeBtnActive = false;
 removeBtn.addEventListener("click" , function(){
        if(removeBtnActive){
-           removeBtn.style.color = "white";
+           removeBtn.style.color = "green";
        }
        else{
-           removeBtn.style.color = "red";
+           removeBtn.style.color = "blue";
        }
        removeBtnActive = !removeBtnActive;
 });
@@ -220,5 +220,6 @@ function handleLock(ticket , id) {
 
         // ticketArr[ticketIdx].data = ticketTastArea.innerText;
         // localStorage.setItem("tickets", JSON.stringify(ticketArr));
+      //hello i was here b. huihui
      });
 }
